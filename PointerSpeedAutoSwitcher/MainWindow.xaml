@@ -5,8 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PointerSpeedAutoSwitcher"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525" Closed="Window_Closed">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0" Content="Pointer-Speed Auto-Switcher" HorizontalAlignment="Center" />
+        <Label Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1" Content="(Range 1 - 20 )" HorizontalAlignment="Center" />
+
+        <Label Grid.Column="0" Grid.Row="2" Content="Current:" HorizontalAlignment="Center" />
+        <TextBox x:Name="tbCurrentSense" Grid.Column="1" Grid.Row="2" Margin="2" />
+        <Button x:Name="btGetCurrent" Grid.Column="2" Grid.Row="2" Content="Get" Margin="2" />
+        <Button x:Name="btSetCurrent" Grid.Column="3" Grid.Row="2" Content="Set" Margin="2" />
     </Grid>
 </Window>

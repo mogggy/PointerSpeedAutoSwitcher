@@ -21,22 +21,33 @@ namespace PointerSpeedAutoSwitcher
     /// </summary>
     public partial class MainWindow : Window
     {
+        System.Windows.Forms.NotifyIcon ni;
+        System.Drawing.Icon redIcon;
+        System.Drawing.Icon greenIcon;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            System.Windows.Forms.NotifyIcon ni = new System.Windows.Forms.NotifyIcon();
+            ni = new System.Windows.Forms.NotifyIcon();
 
-            Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/images/appicon.ico")).Stream;
-            ni.Icon = new System.Drawing.Icon(iconStream);
+            Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/images/redicon.ico")).Stream;
+            redIcon = new System.Drawing.Icon(iconStream);      //red icon
+
+            iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/images/greenicon.ico")).Stream;
+            greenIcon = new System.Drawing.Icon(iconStream);    //green icon
             iconStream.Dispose();
+
+            ni.Icon = redIcon;
 
             ni.Visible = true;
             ni.DoubleClick +=
                 delegate (object sender, EventArgs args)
                 {
+                    ni.Icon = greenIcon;
                     this.Show();
                     this.WindowState = WindowState.Normal;
+
                 };
         }
 
@@ -44,10 +55,17 @@ namespace PointerSpeedAutoSwitcher
         {
             if (WindowState == WindowState.Minimized)
             {
+                ni.Icon = greenIcon;
                 Hide();
             }
 
             base.OnStateChanged(e);
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            ni.Icon.Dispose();
+            ni.Dispose();
         }
     }
 }

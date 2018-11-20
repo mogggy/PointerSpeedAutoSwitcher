@@ -98,7 +98,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\appicon.ico" />
+    <Resource Include="images\redicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\blueicon.ICO" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\greenicon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
