@@ -30,13 +30,13 @@ namespace PointerSpeedAutoSwitcher
 
         const int MINSPEED = 1;
         const int MAXSPEED = 20;
-        const uint SPI_GETMOUSESPEED = 0x0070;
-        const uint SPI_SETMOUSESPEED = 0x0071;
-        const uint SPIF_SENDCHANGE = 0x02;
+        const UInt32 SPI_GETMOUSESPEED = 0x0070;
+        const UInt32 SPI_SETMOUSESPEED = 0x0071;
+        const UInt32 SPIF_SENDCHANGE = 0x02;
 
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref uint pvParam, uint fWinIni);
+        static extern bool SystemParametersInfo(UInt32 uiAction, UInt32 uiParam, IntPtr pvParam, UInt32 fWinIni);
 
         public MainWindow()
         {
@@ -64,23 +64,28 @@ namespace PointerSpeedAutoSwitcher
                 };
         }
 
-        private uint getMouseSpeed()
+        private unsafe int getMouseSpeed()
         {
-            uint mouseSpeed = 0;
-            bool res = SystemParametersInfo(SPI_GETMOUSESPEED,  
-                                            0,
-                                            ref mouseSpeed,
-                                            0 );
+            int mouseSpeed = 0;
+            bool res = SystemParametersInfo(SPI_GETMOUSESPEED,          //get mouse speed
+                                            0,                          //unused
+                                            new IntPtr(&mouseSpeed),    //pointer to the address to store the mousespeed
+                                            0 );                        //unused here
             if (res) return mouseSpeed;
             return 0;
         }
 
-        private bool setMouseSpeed(uint mouseSpeed)
+        private unsafe bool setMouseSpeed(int mouseSpeed)
         { 
-            bool res = SystemParametersInfo(SPI_SETMOUSESPEED,
-                                            0,
-                                            ref mouseSpeed,
-                                            SPIF_SENDCHANGE);
+            if( (mouseSpeed > MAXSPEED) || (mouseSpeed < MINSPEED) )
+            {
+                return false;
+            }
+
+            bool res = SystemParametersInfo(SPI_SETMOUSESPEED,          //get mouse speed
+                                            0,                          //unused
+                                            new IntPtr(mouseSpeed),     //pointer to the desired mousespeed
+                                            SPIF_SENDCHANGE);           //Broadcasts the WM_SETTINGCHANGE message after updating the user profile. 
             return res;
         }
 
@@ -108,7 +113,7 @@ namespace PointerSpeedAutoSwitcher
 
         private void btSetCurrent_Click(object sender, RoutedEventArgs e)
         {
-            setMouseSpeed(16);
+            setMouseSpeed(int.Parse(tbCurrentSense.Text));
         }
     }
 }
