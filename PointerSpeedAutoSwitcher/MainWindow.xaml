@@ -25,7 +25,7 @@
 
         <Label Grid.Column="0" Grid.Row="2" Content="Current:" HorizontalAlignment="Center" />
         <TextBox x:Name="tbCurrentSense" Grid.Column="1" Grid.Row="2" Margin="2" />
-        <Button x:Name="btGetCurrent" Grid.Column="2" Grid.Row="2" Content="Get" Margin="2" />
-        <Button x:Name="btSetCurrent" Grid.Column="3" Grid.Row="2" Content="Set" Margin="2" />
+        <Button x:Name="btGetCurrent" Grid.Column="2" Grid.Row="2" Content="Get" Margin="2" Click="btGetCurrent_Click" />
+        <Button x:Name="btSetCurrent" Grid.Column="3" Grid.Row="2" Content="Set" Margin="2" Click="btSetCurrent_Click" />
     </Grid>
 </Window>

@@ -13,6 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.InteropServices;
+
+
 
 namespace PointerSpeedAutoSwitcher
 {
@@ -24,6 +27,16 @@ namespace PointerSpeedAutoSwitcher
         System.Windows.Forms.NotifyIcon ni;
         System.Drawing.Icon redIcon;
         System.Drawing.Icon greenIcon;
+
+        const int MINSPEED = 1;
+        const int MAXSPEED = 20;
+        const uint SPI_GETMOUSESPEED = 0x0070;
+        const uint SPI_SETMOUSESPEED = 0x0071;
+        const uint SPIF_SENDCHANGE = 0x02;
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref uint pvParam, uint fWinIni);
 
         public MainWindow()
         {
@@ -51,6 +64,26 @@ namespace PointerSpeedAutoSwitcher
                 };
         }
 
+        private uint getMouseSpeed()
+        {
+            uint mouseSpeed = 0;
+            bool res = SystemParametersInfo(SPI_GETMOUSESPEED,  
+                                            0,
+                                            ref mouseSpeed,
+                                            0 );
+            if (res) return mouseSpeed;
+            return 0;
+        }
+
+        private bool setMouseSpeed(uint mouseSpeed)
+        { 
+            bool res = SystemParametersInfo(SPI_SETMOUSESPEED,
+                                            0,
+                                            ref mouseSpeed,
+                                            SPIF_SENDCHANGE);
+            return res;
+        }
+
         protected override void OnStateChanged(EventArgs e)
         {
             if (WindowState == WindowState.Minimized)
@@ -66,6 +99,16 @@ namespace PointerSpeedAutoSwitcher
         {
             ni.Icon.Dispose();
             ni.Dispose();
+        }
+
+        private void btGetCurrent_Click(object sender, RoutedEventArgs e)
+        {
+            tbCurrentSense.Text = getMouseSpeed().ToString();
+        }
+
+        private void btSetCurrent_Click(object sender, RoutedEventArgs e)
+        {
+            setMouseSpeed(16);
         }
     }
 }
