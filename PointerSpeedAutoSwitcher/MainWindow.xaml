@@ -12,6 +12,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -23,9 +24,13 @@
         <Label Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0" Content="Pointer-Speed Auto-Switcher" HorizontalAlignment="Center" />
         <Label Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1" Content="(Range 1 - 20 )" HorizontalAlignment="Center" />
 
-        <Label Grid.Column="0" Grid.Row="2" Content="Current:" HorizontalAlignment="Center" />
+        <Label Grid.Column="0" Grid.Row="2" Content="Current:" HorizontalAlignment="Right" />
         <TextBox x:Name="tbCurrentSense" Grid.Column="1" Grid.Row="2" Margin="2" />
         <Button x:Name="btGetCurrent" Grid.Column="2" Grid.Row="2" Content="Get" Margin="2" Click="btGetCurrent_Click" />
         <Button x:Name="btSetCurrent" Grid.Column="3" Grid.Row="2" Content="Set" Margin="2" Click="btSetCurrent_Click" />
+
+        <Label Grid.Column="0" Grid.Row="3" Content="Log:" HorizontalAlignment="Right" />
+        <TextBox x:Name="tbLog" Grid.Column="1" Grid.Row="3" Grid.RowSpan="2" Text="" Margin="2" />
+        <Button x:Name="btWaitForNextProcess" Grid.Column="2" Grid.Row="3" Margin="2" Click="btWaitForNextProcess_Click" Content="Get Next" Height="Auto" />
     </Grid>
 </Window>

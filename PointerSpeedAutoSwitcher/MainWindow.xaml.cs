@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Management;                //ManagementEventWatcher
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;   //DllImport
 
 
 
@@ -34,6 +35,7 @@ namespace PointerSpeedAutoSwitcher
         const UInt32 SPI_SETMOUSESPEED = 0x0071;
         const UInt32 SPIF_SENDCHANGE = 0x02;
 
+        //import the SystemParametersInfo function we need to use to get/set mouse speed
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool SystemParametersInfo(UInt32 uiAction, UInt32 uiParam, IntPtr pvParam, UInt32 fWinIni);
@@ -62,6 +64,31 @@ namespace PointerSpeedAutoSwitcher
                     this.WindowState = WindowState.Normal;
 
                 };
+        }
+
+        private void lookForNewProcess()
+        {
+            //construct query using the (event class name, polling interval, condition) constructor
+            WqlEventQuery qry = new WqlEventQuery(  "__InstanceCreationEvent",
+                                                    new TimeSpan(0,0,1),                        //1 second
+                                                    "TargetInstance isa \"Win32_Process\"");    //<propertyname> <operator> <value>
+
+            //initialize an event watcher and subscribe to events matching our query
+            ManagementEventWatcher watcher = new ManagementEventWatcher();
+            watcher.Query = qry;
+            watcher.Options.Timeout = new TimeSpan(0, 0, 5);    //wait at most 5 seconds then give up
+
+            //block until event occurs
+            ManagementBaseObject e = watcher.WaitForNextEvent();
+
+            //display information from the event
+            tbLog.Text += "Process created: ";
+            tbLog.Text += ((ManagementBaseObject)e["TargetInstance"])["Name"] + "\n";
+
+            //tbLog.Text += "Path: ";
+            //tbLog.Text += ((ManagementBaseObject)e["TargetInstance"])["ExecutablePath"] + "\n";
+
+            watcher.Stop();
         }
 
         private unsafe int getMouseSpeed()
@@ -114,6 +141,11 @@ namespace PointerSpeedAutoSwitcher
         private void btSetCurrent_Click(object sender, RoutedEventArgs e)
         {
             setMouseSpeed(int.Parse(tbCurrentSense.Text));
+        }
+
+        private void btWaitForNextProcess_Click(object sender, RoutedEventArgs e)
+        {
+            lookForNewProcess();
         }
     }
 }
