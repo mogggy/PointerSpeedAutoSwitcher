@@ -66,30 +66,48 @@ namespace PointerSpeedAutoSwitcher
                 };
         }
 
-        private void lookForNewProcess()
+        private ManagementBaseObject lookForNewProcess()
         {
             //construct query using the (event class name, polling interval, condition) constructor
             WqlEventQuery qry = new WqlEventQuery(  "__InstanceCreationEvent",
                                                     new TimeSpan(0,0,1),                        //1 second
                                                     "TargetInstance isa \"Win32_Process\"");    //<propertyname> <operator> <value>
 
+            return startWatcher(qry);
+        }
+
+        private ManagementBaseObject lookForClosingProcess()
+        {
+            //construct query using the (event class name, polling interval, condition) constructor
+            WqlEventQuery qry = new WqlEventQuery("__InstanceDeletionEvent",
+                                                    new TimeSpan(0, 0, 1),                        //1 second
+                                                    "TargetInstance isa \"Win32_Process\"");    //<propertyname> <operator> <value>
+
+            return startWatcher(qry);
+        }
+
+        private ManagementBaseObject startWatcher(WqlEventQuery query)
+        {
             //initialize an event watcher and subscribe to events matching our query
             ManagementEventWatcher watcher = new ManagementEventWatcher();
-            watcher.Query = qry;
-            watcher.Options.Timeout = new TimeSpan(0, 0, 5);    //wait at most 5 seconds then give up
+            watcher.Query = query;
+            watcher.Options.Timeout = new TimeSpan(0, 0, 90);    //wait at most n seconds then give up
 
             //block until event occurs
             ManagementBaseObject e = watcher.WaitForNextEvent();
 
             //display information from the event
-            tbLog.Text += "Process created: ";
+            tbLog.Text += "Process: ";
             tbLog.Text += ((ManagementBaseObject)e["TargetInstance"])["Name"] + "\n";
 
-            //tbLog.Text += "Path: ";
-            //tbLog.Text += ((ManagementBaseObject)e["TargetInstance"])["ExecutablePath"] + "\n";
+            tbLog.Text += "Path: ";
+            tbLog.Text += ((ManagementBaseObject)e["TargetInstance"])["ExecutablePath"] + "\n";
 
             watcher.Stop();
+
+            return e;
         }
+
 
         private unsafe int getMouseSpeed()
         {
@@ -109,7 +127,7 @@ namespace PointerSpeedAutoSwitcher
                 return false;
             }
 
-            bool res = SystemParametersInfo(SPI_SETMOUSESPEED,          //get mouse speed
+            bool res = SystemParametersInfo(SPI_SETMOUSESPEED,          //set mouse speed
                                             0,                          //unused
                                             new IntPtr(mouseSpeed),     //pointer to the desired mousespeed
                                             SPIF_SENDCHANGE);           //Broadcasts the WM_SETTINGCHANGE message after updating the user profile. 
@@ -143,9 +161,22 @@ namespace PointerSpeedAutoSwitcher
             setMouseSpeed(int.Parse(tbCurrentSense.Text));
         }
 
-        private void btWaitForNextProcess_Click(object sender, RoutedEventArgs e)
+        private void btWaitForProcessStart_Click(object sender, RoutedEventArgs e)
         {
-            lookForNewProcess();
+            ManagementBaseObject prc = lookForNewProcess();
+            if ( (string)((ManagementBaseObject)prc["TargetInstance"])["Name"] == "moggySleep.exe" )
+            {
+                setMouseSpeed(14);
+            }
+        }
+
+        private void btWaitForProcessEnd_Click(object sender, RoutedEventArgs e)
+        {
+            ManagementBaseObject prc = lookForClosingProcess();
+            if ((string)((ManagementBaseObject)prc["TargetInstance"])["Name"] == "moggySleep.exe")
+            {
+                setMouseSpeed(10);
+            }
         }
     }
 }
