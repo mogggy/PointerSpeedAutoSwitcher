@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PointerSpeedAutoSwitcher"
         mc:Ignorable="d"
-        Title="psas" Height="350" Width="525" Closed="Window_Closed">
-    <Grid>
+        Title="" Height="350" Width="525" Closed="Window_Closed"
+        Style="{StaticResource Calibri12}">
+    <Grid Margin="2">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -19,19 +21,27 @@
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0" Content="Pointer-Speed Auto-Switcher" HorizontalAlignment="Center" />
-        <Label Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1" Content="(Range 1 - 20 )" HorizontalAlignment="Center" />
+        <Label Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="0" Content="Pointer-Speed Auto-Switcher" HorizontalAlignment="Center" FontFamily="Consolas" FontSize="18" FontWeight="Bold" />
 
-        <Label Grid.Column="0" Grid.Row="2" Content="Current:" HorizontalAlignment="Right" />
-        <TextBox x:Name="tbCurrentSense" Grid.Column="1" Grid.Row="2" Margin="2" />
-        <Button x:Name="btGetCurrent" Grid.Column="2" Grid.Row="2" Content="Get" Margin="2" Click="btGetCurrent_Click" />
-        <Button x:Name="btSetCurrent" Grid.Column="3" Grid.Row="2" Content="Set" Margin="2" Click="btSetCurrent_Click" />
+        <Label Grid.Column="1" Grid.Row="1" Content="Process Name" HorizontalAlignment="Center" />
+        <Label Grid.Column="2" Grid.Row="1" Content="Speed (1-20)" HorizontalAlignment="Center" />
 
-        <Label Grid.Column="0" Grid.Row="3" Content="Log:" HorizontalAlignment="Right" />
-        <TextBox x:Name="tbLog" Grid.Column="1" Grid.Row="3" Grid.RowSpan="2" Text="" Margin="2" />
-        <Button x:Name="btWaitForProcessStart" Grid.Column="2" Grid.Row="3" Margin="2" Click="btWaitForProcessStart_Click" Content="Wait Start" Height="Auto" />
-        <Button x:Name="btWaitForProcessEnd" Grid.Column="3" Grid.Row="3" Margin="2" Click="btWaitForProcessEnd_Click" Content="Wait End" Height="Auto" />
+        <TextBox Grid.Column="1" Grid.Row="2" Margin="2" Text="Default" TextAlignment="Center" Padding="2" IsReadOnly="True" />
+        <TextBox x:Name="tbDefaultSense" Grid.Column="2" Grid.Row="2" Margin="2" TextAlignment="Center" />
+        <Button x:Name="btGetCurrent" Grid.Column="3" Grid.Row="2" Content="Get" Margin="2" Click="btGetCurrent_Click" />
+        <Button x:Name="btSetCurrent" Grid.Column="4" Grid.Row="2" Content="Set" Margin="2" Click="btSetCurrent_Click" />
+
+        <!-- <Label Grid.Column="0" Grid.Row="3" Content="Current:" HorizontalAlignment="Right" /> -->
+        <TextBox x:Name="tbProcessName" Grid.Column="1" Grid.Row="3" Margin="2" TextAlignment="Center" Padding="2" />
+        <TextBox x:Name="tbProcessSense" Grid.Column="2" Grid.Row="3" Margin="2" TextAlignment="Center" />
+        <Button Grid.Column="4" Grid.Row="3" Content="Set" Margin="2" Click="btSetCurrent_Click" />
+
+        <Label Grid.Column="0" Grid.Row="4" Content="Log:" HorizontalAlignment="Right" />
+        <TextBox x:Name="tbLog" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2" Text="" Margin="2" Padding="2" IsReadOnly="True" />
+        <Button x:Name="btWaitForProcessStart" Grid.Column="3" Grid.Row="4" Margin="2" Click="btWaitForProcessStart_Click" Content="Wait Start" Height="Auto" />
+        <Button x:Name="btWaitForProcessEnd" Grid.Column="4" Grid.Row="4" Margin="2" Click="btWaitForProcessEnd_Click" Content="Wait End" Height="Auto" />
     </Grid>
 </Window>

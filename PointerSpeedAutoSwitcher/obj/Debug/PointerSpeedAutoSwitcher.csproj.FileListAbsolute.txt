@@ -12,3 +12,4 @@ C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Debug
 C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Debug\PointerSpeedAutoSwitcher.csproj.GenerateResource.Cache
 C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Debug\PointerSpeedAutoSwitcher.exe
 C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Debug\PointerSpeedAutoSwitcher.pdb
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Debug\App.baml

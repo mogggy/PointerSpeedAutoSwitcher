@@ -154,12 +154,12 @@ namespace PointerSpeedAutoSwitcher
 
         private void btGetCurrent_Click(object sender, RoutedEventArgs e)
         {
-            tbCurrentSense.Text = getMouseSpeed().ToString();
+            tbDefaultSense.Text = getMouseSpeed().ToString();
         }
 
         private void btSetCurrent_Click(object sender, RoutedEventArgs e)
         {
-            setMouseSpeed(int.Parse(tbCurrentSense.Text));
+            setMouseSpeed(int.Parse(tbDefaultSense.Text));
         }
 
         private void btWaitForProcessStart_Click(object sender, RoutedEventArgs e)
