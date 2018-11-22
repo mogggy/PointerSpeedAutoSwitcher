@@ -16,7 +16,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;   //DllImport
 
-
+// TODO add facility for grabbing the list of currently running processes and setting the appropriate state
+//      for when the program has just been started or if user wants to manually un-fuck
 
 namespace PointerSpeedAutoSwitcher
 {
