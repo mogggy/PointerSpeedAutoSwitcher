@@ -40,8 +40,8 @@
         <!-- <CheckBox x:Name="chkActive" Grid.Column="3" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" /> -->
         <Button Grid.Column="4" Grid.Row="3" Content="Set" Margin="2" Click="btSetCurrent_Click" Visibility="Hidden" />
 
-        <Label Grid.Column="0" Grid.Row="4" Content="Log:" HorizontalAlignment="Right" />
-        <TextBox x:Name="tbLog" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2" Text="" Margin="2" Padding="2" IsReadOnly="True" />
+        <!-- <Label Grid.Column="0" Grid.Row="4" Content="Log:" HorizontalAlignment="Right" /> -->
+        <TextBox x:Name="tbLog" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2" Text="" Margin="2" Padding="2" IsReadOnly="True" TextChanged="tbLog_TextChanged" />
         <Button x:Name="btStart" Grid.Column="3" Grid.Row="4" Margin="2" Click="btStart_Click" Content="Start" Height="Auto" />
         <Button x:Name="btEnd" Grid.Column="4" Grid.Row="4" Margin="2" Click="btEnd_Click" IsEnabled="False" Content="Stop" Height="Auto" />
     </Grid>

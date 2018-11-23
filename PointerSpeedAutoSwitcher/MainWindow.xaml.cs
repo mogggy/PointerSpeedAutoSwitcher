@@ -113,7 +113,7 @@ namespace PointerSpeedAutoSwitcher
             // Whenever you update your UI elements from a thread other than the main thread, you need to use:
             this.Dispatcher.Invoke(() =>
             {
-                tbLog.Text += DateTime.Now.ToString("HH:mm:ss") + " :: " + targetInstance["Name"];
+                tbLog.AppendText(DateTime.Now.ToString("HH:mm:ss") + " :: " + targetInstance["Name"]);
             });
 
             // stop the old watcher and start the new one
@@ -122,7 +122,7 @@ namespace PointerSpeedAutoSwitcher
             {
                 this.Dispatcher.Invoke(() =>
                 {
-                    tbLog.Text += " launched.\n";
+                    tbLog.AppendText(" launched.\n");
                 });
                 lookForClosingProcess();
             }
@@ -130,7 +130,7 @@ namespace PointerSpeedAutoSwitcher
             {
                 this.Dispatcher.Invoke(() =>
                 {
-                    tbLog.Text += " closed.\n";
+                    tbLog.AppendText(" closed.\n");
                 });
                 lookForNewProcess();
             }
@@ -205,7 +205,7 @@ namespace PointerSpeedAutoSwitcher
 
         private void btStart_Click(object sender, RoutedEventArgs e)
         {
-            tbLog.Text += DateTime.Now.ToString("HH:mm:ss") + " :: Started watching.\n";
+            tbLog.AppendText(DateTime.Now.ToString("HH:mm:ss") + " :: Started watching.\n");
             btStart.IsEnabled = false;
             btEnd.IsEnabled = true;
             lookForNewProcess();
@@ -213,10 +213,15 @@ namespace PointerSpeedAutoSwitcher
 
         private void btEnd_Click(object sender, RoutedEventArgs e)
         {
-            tbLog.Text += DateTime.Now.ToString("HH:mm:ss") + " :: Stopped watching.\n";
+            tbLog.AppendText(DateTime.Now.ToString("HH:mm:ss") + " :: Stopped watching.\n");
             btStart.IsEnabled = true;
             btEnd.IsEnabled = false;
             watcher.Stop();
+        }
+
+        private void tbLog_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            tbLog.ScrollToEnd();
         }
     }
 }
