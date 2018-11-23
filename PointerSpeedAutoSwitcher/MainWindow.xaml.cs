@@ -105,6 +105,7 @@ namespace PointerSpeedAutoSwitcher
 
         private void handleEvent(object sender, EventArrivedEventArgs e)
         {
+            int newSpeed = 10;
             // EventArrivedEventArgs has a property named NewEvent and in this case this 
             // property will hold a reference to the instance of __InstanceCreationEvent that triggered the event.
             // NewEvent type is ManagementBaseObject, but NewEvent[“TargetInstance”] is Object so you need to cast it to ManagementBaseObject. 
@@ -116,22 +117,26 @@ namespace PointerSpeedAutoSwitcher
                 tbLog.AppendText(DateTime.Now.ToString("HH:mm:ss") + " :: " + targetInstance["Name"]);
             });
 
-            // stop the old watcher and start the new one
+            // stop the old watcher, set appropriate sense, start new watcher
             watcher.Stop();
             if (watcherTypeIsCreation)
             {
                 this.Dispatcher.Invoke(() =>
                 {
                     tbLog.AppendText(" launched.\n");
+                    newSpeed = int.Parse(tbProcessSense.Text);
                 });
-                lookForClosingProcess();
+                setMouseSpeed(newSpeed);
+                lookForClosingProcess();                
             }
             else
             {
                 this.Dispatcher.Invoke(() =>
                 {
                     tbLog.AppendText(" closed.\n");
+                    newSpeed = int.Parse(tbDefaultSense.Text);
                 });
+                setMouseSpeed(newSpeed);
                 lookForNewProcess();
             }
         }
