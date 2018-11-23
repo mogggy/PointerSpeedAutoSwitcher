@@ -30,19 +30,19 @@
         <Label Grid.Column="2" Grid.Row="1" Content="Speed (1-20)" HorizontalAlignment="Center" />
 
         <TextBox Grid.Column="1" Grid.Row="2" Margin="2" Text="Default" TextAlignment="Center" Padding="2" IsReadOnly="True" />
-        <TextBox x:Name="tbDefaultSense" Grid.Column="2" Grid.Row="2" Margin="2" TextAlignment="Center" />
-        <Button x:Name="btGetCurrent" Grid.Column="3" Grid.Row="2" Content="Get" Margin="2" Click="btGetCurrent_Click" />
-        <Button x:Name="btSetCurrent" Grid.Column="4" Grid.Row="2" Content="Set" Margin="2" Click="btSetCurrent_Click" />
+        <TextBox x:Name="tbDefaultSense" Grid.Column="2" Grid.Row="2" Margin="2" TextAlignment="Center" Text="10"/>
+        <Button x:Name="btGetCurrent" Grid.Column="3" Grid.Row="2" Content="Get Current" Margin="2" Click="btGetCurrent_Click" />
+        <Button x:Name="btSetCurrent" Grid.Column="4" Grid.Row="2" Content="Set Current" Margin="2" Click="btSetCurrent_Click" />
 
         <!-- <Label Grid.Column="0" Grid.Row="3" Content="Current:" HorizontalAlignment="Right" /> -->
         <TextBox x:Name="tbProcessName" Grid.Column="1" Grid.Row="3" Margin="2" TextAlignment="Center" Padding="2" Text="moggySleep.exe" />
-        <TextBox x:Name="tbProcessSense" Grid.Column="2" Grid.Row="3" Margin="2" TextAlignment="Center" />
+        <TextBox x:Name="tbProcessSense" Grid.Column="2" Grid.Row="3" Margin="2" TextAlignment="Center" Text="14" />
         <!-- <CheckBox x:Name="chkActive" Grid.Column="3" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" /> -->
-        <Button Grid.Column="4" Grid.Row="3" Content="Set" Margin="2" Click="btSetCurrent_Click" />
+        <Button Grid.Column="4" Grid.Row="3" Content="Set" Margin="2" Click="btSetCurrent_Click" Visibility="Hidden" />
 
         <Label Grid.Column="0" Grid.Row="4" Content="Log:" HorizontalAlignment="Right" />
         <TextBox x:Name="tbLog" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2" Text="" Margin="2" Padding="2" IsReadOnly="True" />
-        <Button x:Name="btWaitForProcessStart" Grid.Column="3" Grid.Row="4" Margin="2" Click="btWaitForProcessStart_Click" Content="Wait Start" Height="Auto" />
-        <Button x:Name="btWaitForProcessEnd" Grid.Column="4" Grid.Row="4" Margin="2" Click="btWaitForProcessEnd_Click" Content="Wait End" Height="Auto" />
+        <Button x:Name="btStart" Grid.Column="3" Grid.Row="4" Margin="2" Click="btStart_Click" Content="Start" Height="Auto" />
+        <Button x:Name="btEnd" Grid.Column="4" Grid.Row="4" Margin="2" Click="btEnd_Click" IsEnabled="False" Content="Stop" Height="Auto" />
     </Grid>
 </Window>

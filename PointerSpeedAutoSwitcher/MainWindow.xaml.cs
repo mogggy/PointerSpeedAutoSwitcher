@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-using System.Management;                //ManagementEventWatcher
+using System.Management;                // ManagementEventWatcher
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;                   //NotifyIcon
+using System.Windows;                   // NotifyIcon
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -14,10 +14,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Runtime.InteropServices;   //DllImport
+using System.Runtime.InteropServices;   // DllImport
 
 // TODO add facility for grabbing the list of currently running processes and setting the appropriate state
-//      for when the program has just been started or if user wants to manually un-fuck
+//      for when the program has just been started or if user wants to manually un-fuck it
+
+// TODO run on startup & save settings
 
 namespace PointerSpeedAutoSwitcher
 {
@@ -36,12 +38,13 @@ namespace PointerSpeedAutoSwitcher
         const UInt32 SPI_SETMOUSESPEED = 0x0071;
         const UInt32 SPIF_SENDCHANGE = 0x02;
 
-        //import the SystemParametersInfo function we need to use to get/set mouse speed
+        // import the SystemParametersInfo function we need to use to get/set mouse speed
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool SystemParametersInfo(UInt32 uiAction, UInt32 uiParam, IntPtr pvParam, UInt32 fWinIni);
 
         private static ManagementEventWatcher watcher = null;
+        private static bool watcherTypeIsCreation = true;
 
         public MainWindow()
         {
@@ -71,44 +74,75 @@ namespace PointerSpeedAutoSwitcher
 
         private void lookForNewProcess()
         {
-            //construct query using the (event class name, polling interval, condition) constructor
+            string procName = "";
+            this.Dispatcher.Invoke(() => { procName = tbProcessName.Text; });
+
+            // construct query using the (event class name, polling interval, condition) constructor
             WqlEventQuery qry = new WqlEventQuery(  "__InstanceCreationEvent",
                                                     new TimeSpan(0,0,1),                        //1 second
                                                     "TargetInstance isa \"Win32_Process\" and TargetInstance.Name=\""
-                                                        + tbProcessName.Text + "\"");           //<propertyname> <operator> <value>
+                                                        + procName + "\"");           //<propertyname> <operator> <value>
 
-            watcher = new ManagementEventWatcher(qry);
-            watcher.EventArrived += new EventArrivedEventHandler(handleEvent);
+            watcherTypeIsCreation = true; // watching for a process creation
+            startWatcher(qry);
+        }
 
-            watcher.Start();    //start receiving events
+        private void lookForClosingProcess()
+        {
+            string procName = "";
+            this.Dispatcher.Invoke(() =>{ procName = tbProcessName.Text; });
+
+            // construct query using the (event class name, polling interval, condition) constructor
+            WqlEventQuery qry = new WqlEventQuery("__InstanceDeletionEvent",
+                                                    new TimeSpan(0, 0, 1),                        //1 second
+                                                    "TargetInstance isa \"Win32_Process\" and TargetInstance.Name=\""
+                                                        + procName + "\"");           //<propertyname> <operator> <value>
+
+            watcherTypeIsCreation = false; // watching for a process deletion
+            startWatcher(qry);
+
         }
 
         private void handleEvent(object sender, EventArrivedEventArgs e)
         {
             // EventArrivedEventArgs has a property named NewEvent and in this case this 
-            // property will hold a reference to the instance of __InstanceCreationEvent that trigered the event.
+            // property will hold a reference to the instance of __InstanceCreationEvent that triggered the event.
             // NewEvent type is ManagementBaseObject, but NewEvent[“TargetInstance”] is Object so you need to cast it to ManagementBaseObject. 
             ManagementBaseObject targetInstance = (ManagementBaseObject)e.NewEvent["TargetInstance"];
 
             // Whenever you update your UI elements from a thread other than the main thread, you need to use:
             this.Dispatcher.Invoke(() =>
             {
-                tbLog.Text += targetInstance["Name"] + "\n";
+                tbLog.Text += DateTime.Now.ToString("HH:mm:ss") + " :: " + targetInstance["Name"];
             });
 
+            // stop the old watcher and start the new one
+            watcher.Stop();
+            if (watcherTypeIsCreation)
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    tbLog.Text += " launched.\n";
+                });
+                lookForClosingProcess();
+            }
+            else
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    tbLog.Text += " closed.\n";
+                });
+                lookForNewProcess();
+            }
         }
 
-        private void lookForClosingProcess()
-        {
-            //construct query using the (event class name, polling interval, condition) constructor
-            WqlEventQuery qry = new WqlEventQuery("__InstanceDeletionEvent",
-                                                    new TimeSpan(0, 0, 1),                        //1 second
-                                                    "TargetInstance isa \"Win32_Process\"");    //<propertyname> <operator> <value>
-
-        }
 
         private void startWatcher(WqlEventQuery query)
         {
+            watcher = new ManagementEventWatcher(query);
+            watcher.EventArrived += new EventArrivedEventHandler(handleEvent);
+
+            watcher.Start();    //start receiving events
         }
 
 
@@ -164,20 +198,25 @@ namespace PointerSpeedAutoSwitcher
             setMouseSpeed(int.Parse(tbDefaultSense.Text));
         }
 
-        private void btWaitForProcessStart_Click(object sender, RoutedEventArgs e)
-        {
-            lookForNewProcess();
-        }
-
-        private void btWaitForProcessEnd_Click(object sender, RoutedEventArgs e)
-        {
-            //lookForClosingProcess();
-            watcher.Stop();
-        }
-
         private void chkActive_Checked(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void btStart_Click(object sender, RoutedEventArgs e)
+        {
+            tbLog.Text += DateTime.Now.ToString("HH:mm:ss") + " :: Started watching.\n";
+            btStart.IsEnabled = false;
+            btEnd.IsEnabled = true;
+            lookForNewProcess();
+        }
+
+        private void btEnd_Click(object sender, RoutedEventArgs e)
+        {
+            tbLog.Text += DateTime.Now.ToString("HH:mm:ss") + " :: Stopped watching.\n";
+            btStart.IsEnabled = true;
+            btEnd.IsEnabled = false;
+            watcher.Stop();
         }
     }
 }
