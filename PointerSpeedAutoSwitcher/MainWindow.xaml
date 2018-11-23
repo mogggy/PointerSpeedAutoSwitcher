@@ -35,8 +35,9 @@
         <Button x:Name="btSetCurrent" Grid.Column="4" Grid.Row="2" Content="Set" Margin="2" Click="btSetCurrent_Click" />
 
         <!-- <Label Grid.Column="0" Grid.Row="3" Content="Current:" HorizontalAlignment="Right" /> -->
-        <TextBox x:Name="tbProcessName" Grid.Column="1" Grid.Row="3" Margin="2" TextAlignment="Center" Padding="2" />
+        <TextBox x:Name="tbProcessName" Grid.Column="1" Grid.Row="3" Margin="2" TextAlignment="Center" Padding="2" Text="moggySleep.exe" />
         <TextBox x:Name="tbProcessSense" Grid.Column="2" Grid.Row="3" Margin="2" TextAlignment="Center" />
+        <!-- <CheckBox x:Name="chkActive" Grid.Column="3" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" /> -->
         <Button Grid.Column="4" Grid.Row="3" Content="Set" Margin="2" Click="btSetCurrent_Click" />
 
         <Label Grid.Column="0" Grid.Row="4" Content="Log:" HorizontalAlignment="Right" />

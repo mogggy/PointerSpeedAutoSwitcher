@@ -5,7 +5,7 @@ using System.IO;
 using System.Management;                //ManagementEventWatcher
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
+using System.Windows;                   //NotifyIcon
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -41,6 +41,8 @@ namespace PointerSpeedAutoSwitcher
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool SystemParametersInfo(UInt32 uiAction, UInt32 uiParam, IntPtr pvParam, UInt32 fWinIni);
 
+        private static ManagementEventWatcher watcher = null;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -67,46 +69,46 @@ namespace PointerSpeedAutoSwitcher
                 };
         }
 
-        private ManagementBaseObject lookForNewProcess()
+        private void lookForNewProcess()
         {
             //construct query using the (event class name, polling interval, condition) constructor
             WqlEventQuery qry = new WqlEventQuery(  "__InstanceCreationEvent",
                                                     new TimeSpan(0,0,1),                        //1 second
-                                                    "TargetInstance isa \"Win32_Process\"");    //<propertyname> <operator> <value>
+                                                    "TargetInstance isa \"Win32_Process\" and TargetInstance.Name=\""
+                                                        + tbProcessName.Text + "\"");           //<propertyname> <operator> <value>
 
-            return startWatcher(qry);
+            watcher = new ManagementEventWatcher(qry);
+            watcher.EventArrived += new EventArrivedEventHandler(handleEvent);
+
+            watcher.Start();    //start receiving events
         }
 
-        private ManagementBaseObject lookForClosingProcess()
+        private void handleEvent(object sender, EventArrivedEventArgs e)
+        {
+            // EventArrivedEventArgs has a property named NewEvent and in this case this 
+            // property will hold a reference to the instance of __InstanceCreationEvent that trigered the event.
+            // NewEvent type is ManagementBaseObject, but NewEvent[“TargetInstance”] is Object so you need to cast it to ManagementBaseObject. 
+            ManagementBaseObject targetInstance = (ManagementBaseObject)e.NewEvent["TargetInstance"];
+
+            // Whenever you update your UI elements from a thread other than the main thread, you need to use:
+            this.Dispatcher.Invoke(() =>
+            {
+                tbLog.Text += targetInstance["Name"] + "\n";
+            });
+
+        }
+
+        private void lookForClosingProcess()
         {
             //construct query using the (event class name, polling interval, condition) constructor
             WqlEventQuery qry = new WqlEventQuery("__InstanceDeletionEvent",
                                                     new TimeSpan(0, 0, 1),                        //1 second
                                                     "TargetInstance isa \"Win32_Process\"");    //<propertyname> <operator> <value>
 
-            return startWatcher(qry);
         }
 
-        private ManagementBaseObject startWatcher(WqlEventQuery query)
+        private void startWatcher(WqlEventQuery query)
         {
-            //initialize an event watcher and subscribe to events matching our query
-            ManagementEventWatcher watcher = new ManagementEventWatcher();
-            watcher.Query = query;
-            watcher.Options.Timeout = new TimeSpan(0, 0, 90);    //wait at most n seconds then give up
-
-            //block until event occurs
-            ManagementBaseObject e = watcher.WaitForNextEvent();
-
-            //display information from the event
-            tbLog.Text += "Process: ";
-            tbLog.Text += ((ManagementBaseObject)e["TargetInstance"])["Name"] + "\n";
-
-            tbLog.Text += "Path: ";
-            tbLog.Text += ((ManagementBaseObject)e["TargetInstance"])["ExecutablePath"] + "\n";
-
-            watcher.Stop();
-
-            return e;
         }
 
 
@@ -164,20 +166,18 @@ namespace PointerSpeedAutoSwitcher
 
         private void btWaitForProcessStart_Click(object sender, RoutedEventArgs e)
         {
-            ManagementBaseObject prc = lookForNewProcess();
-            if ( (string)((ManagementBaseObject)prc["TargetInstance"])["Name"] == "moggySleep.exe" )
-            {
-                setMouseSpeed(14);
-            }
+            lookForNewProcess();
         }
 
         private void btWaitForProcessEnd_Click(object sender, RoutedEventArgs e)
         {
-            ManagementBaseObject prc = lookForClosingProcess();
-            if ((string)((ManagementBaseObject)prc["TargetInstance"])["Name"] == "moggySleep.exe")
-            {
-                setMouseSpeed(10);
-            }
+            //lookForClosingProcess();
+            watcher.Stop();
+        }
+
+        private void chkActive_Checked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
