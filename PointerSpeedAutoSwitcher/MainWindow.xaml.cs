@@ -21,6 +21,8 @@ using System.Runtime.InteropServices;   // DllImport
 
 // TODO run on startup & save settings
 
+// TODO handle multiple copies of the process. perhaps a call to our current state checker on deletionevent?
+
 namespace PointerSpeedAutoSwitcher
 {
     /// <summary>
@@ -65,7 +67,6 @@ namespace PointerSpeedAutoSwitcher
             ni.DoubleClick +=
                 delegate (object sender, EventArgs args)
                 {
-                    ni.Icon = greenIcon;
                     this.Show();
                     this.WindowState = WindowState.Normal;
 
@@ -75,7 +76,11 @@ namespace PointerSpeedAutoSwitcher
         private void lookForNewProcess()
         {
             string procName = "";
-            this.Dispatcher.Invoke(() => { procName = tbProcessName.Text; });
+            this.Dispatcher.Invoke(() => 
+            {
+                procName = tbProcessName.Text;
+                ni.Icon = redIcon;
+            });
 
             // construct query using the (event class name, polling interval, condition) constructor
             WqlEventQuery qry = new WqlEventQuery(  "__InstanceCreationEvent",
@@ -90,7 +95,11 @@ namespace PointerSpeedAutoSwitcher
         private void lookForClosingProcess()
         {
             string procName = "";
-            this.Dispatcher.Invoke(() =>{ procName = tbProcessName.Text; });
+            this.Dispatcher.Invoke(() =>
+            {
+                procName = tbProcessName.Text;
+                ni.Icon = greenIcon;
+            });
 
             // construct query using the (event class name, polling interval, condition) constructor
             WqlEventQuery qry = new WqlEventQuery("__InstanceDeletionEvent",
@@ -180,7 +189,6 @@ namespace PointerSpeedAutoSwitcher
         {
             if (WindowState == WindowState.Minimized)
             {
-                ni.Icon = greenIcon;
                 Hide();
             }
 
@@ -227,6 +235,15 @@ namespace PointerSpeedAutoSwitcher
         private void tbLog_TextChanged(object sender, TextChangedEventArgs e)
         {
             tbLog.ScrollToEnd();
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            //DragMove();
+        }
+
+        private void tbLog_KeyDown(object sender, KeyEventArgs e)
+        {
         }
     }
 }

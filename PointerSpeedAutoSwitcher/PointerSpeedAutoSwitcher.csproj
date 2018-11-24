@@ -103,9 +103,6 @@
     <Resource Include="images\redicon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\blueicon.ICO" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="images\greenicon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
