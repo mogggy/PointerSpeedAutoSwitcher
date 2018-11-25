@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PointerSpeedAutoSwitcher"
         mc:Ignorable="d"
-        Title="" Height="350" Width="525" Closed="Window_Closed"
-        Style="{StaticResource Calibri12}" MouseDown="Window_MouseDown">
+        Title="Pointer-Speed Auto-Switcher" Height="350" Width="525" Closed="Window_Closed"
+        Style="{StaticResource CustomWindowStyle}" MouseDown="Window_MouseDown">
     <Grid Margin="2">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -24,25 +24,19 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="0" Content="Pointer-Speed Auto-Switcher" HorizontalAlignment="Center" FontFamily="Consolas" FontSize="18" FontWeight="Bold" />
+        <Label Grid.Column="1" Grid.Row="1" Content="Process Name" HorizontalAlignment="Center" Foreground="White" />
+        <Label Grid.Column="2" Grid.Row="1" Content="Speed (1-20)" HorizontalAlignment="Center" Foreground="White" />
 
-        <Label Grid.Column="1" Grid.Row="1" Content="Process Name" HorizontalAlignment="Center" />
-        <Label Grid.Column="2" Grid.Row="1" Content="Speed (1-20)" HorizontalAlignment="Center" />
+        <TextBox Grid.Column="1" Grid.Row="2" Margin="2" Text="Default" TextAlignment="Center" Padding="2" IsReadOnly="True" Style="{StaticResource StandardTextBoxStyle}" />
+        <TextBox x:Name="tbDefaultSense" Grid.Column="2" Grid.Row="2" Margin="2" TextAlignment="Center" Text="10" Style="{StaticResource StandardTextBoxStyle}" />
+        <Button x:Name="btGetCurrent" Grid.Column="3" Grid.Row="2" Content="Get Current" Margin="2" Click="btGetCurrent_Click" Style="{StaticResource  StandardButtonStyle}" />
+        <Button x:Name="btSetCurrent" Grid.Column="4" Grid.Row="2" Content="Set Current" Margin="2" Click="btSetCurrent_Click" Style="{StaticResource  StandardButtonStyle}" />
 
-        <TextBox Grid.Column="1" Grid.Row="2" Margin="2" Text="Default" TextAlignment="Center" Padding="2" IsReadOnly="True" />
-        <TextBox x:Name="tbDefaultSense" Grid.Column="2" Grid.Row="2" Margin="2" TextAlignment="Center" Text="10"/>
-        <Button x:Name="btGetCurrent" Grid.Column="3" Grid.Row="2" Content="Get Current" Margin="2" Click="btGetCurrent_Click" />
-        <Button x:Name="btSetCurrent" Grid.Column="4" Grid.Row="2" Content="Set Current" Margin="2" Click="btSetCurrent_Click" />
+        <TextBox x:Name="tbProcessName" Grid.Column="1" Grid.Row="3" Margin="2" TextAlignment="Center" Padding="2" Text="moggySleep.exe" Style="{StaticResource StandardTextBoxStyle}" />
+        <TextBox x:Name="tbProcessSense" Grid.Column="2" Grid.Row="3" Margin="2" TextAlignment="Center" Text="14" Style="{StaticResource StandardTextBoxStyle}" />
 
-        <!-- <Label Grid.Column="0" Grid.Row="3" Content="Current:" HorizontalAlignment="Right" /> -->
-        <TextBox x:Name="tbProcessName" Grid.Column="1" Grid.Row="3" Margin="2" TextAlignment="Center" Padding="2" Text="moggySleep.exe" />
-        <TextBox x:Name="tbProcessSense" Grid.Column="2" Grid.Row="3" Margin="2" TextAlignment="Center" Text="14" />
-        <!-- <CheckBox x:Name="chkActive" Grid.Column="3" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" /> -->
-        <Button Grid.Column="4" Grid.Row="3" Content="Set" Margin="2" Click="btSetCurrent_Click" Visibility="Hidden" />
-
-        <!-- <Label Grid.Column="0" Grid.Row="4" Content="Log:" HorizontalAlignment="Right" /> -->
-        <TextBox x:Name="tbLog" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2" Text="" Margin="2" Padding="2" IsReadOnly="True" TextChanged="tbLog_TextChanged" KeyDown="tbLog_KeyDown" />
-        <Button x:Name="btStart" Grid.Column="3" Grid.Row="4" Margin="2" Click="btStart_Click" Content="Start" Height="Auto" />
-        <Button x:Name="btEnd" Grid.Column="4" Grid.Row="4" Margin="2" Click="btEnd_Click" IsEnabled="False" Content="Stop" Height="Auto" />
+        <TextBox x:Name="tbLog" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2" Text="" Margin="2" Padding="2" IsReadOnly="True" TextChanged="tbLog_TextChanged" KeyDown="tbLog_KeyDown" Style="{StaticResource StandardTextBoxStyle}" />
+        <Button x:Name="btStart" Grid.Column="3" Grid.Row="4" Margin="2" Click="btStart_Click" Content="Start" Height="Auto" Style="{StaticResource  StandardButtonStyle}" />
+        <Button x:Name="btEnd" Grid.Column="4" Grid.Row="4" Margin="2" Click="btEnd_Click" IsEnabled="False" Content="Stop" Height="Auto" Style="{StaticResource  StandardButtonStyle}" />
     </Grid>
 </Window>

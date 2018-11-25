@@ -23,6 +23,8 @@ using System.Runtime.InteropServices;   // DllImport
 
 // TODO handle multiple copies of the process. perhaps a call to our current state checker on deletionevent?
 
+// TODO inactive style for buttons
+
 namespace PointerSpeedAutoSwitcher
 {
     /// <summary>

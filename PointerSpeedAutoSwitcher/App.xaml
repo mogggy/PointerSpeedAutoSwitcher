@@ -4,9 +4,10 @@
              xmlns:local="clr-namespace:PointerSpeedAutoSwitcher"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Style x:Key="Calibri12" TargetType="{x:Type Window}">
-            <Setter Property="FontFamily" Value="Calibri" />
-            <Setter Property="FontSize" Value="12" />
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="WindowStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

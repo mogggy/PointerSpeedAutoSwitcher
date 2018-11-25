@@ -13,3 +13,5 @@ C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Debug
 C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Debug\PointerSpeedAutoSwitcher.exe
 C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Debug\PointerSpeedAutoSwitcher.pdb
 C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Debug\App.baml
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Debug\WindowStyle.g.cs
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Debug\WindowStyle.baml
