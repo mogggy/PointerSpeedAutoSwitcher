@@ -86,6 +86,11 @@ namespace PointerSpeedAutoSwitcher
 
             tbLog.AppendText(DateTime.Now.ToString("HH:mm:ss") + " :: Started watching.\n");
 
+            hotStart();
+        }
+
+        private void hotStart()
+        {
             // check if process is already running
             if (checkAlreadyRunning() > 0)
             {
@@ -104,7 +109,13 @@ namespace PointerSpeedAutoSwitcher
 
         private int checkAlreadyRunning()
         {
-            WqlObjectQuery qry = new WqlObjectQuery("SELECT Name FROM Win32_Process WHERE Name=\"" + tbProcessName.Text + "\"");
+            string procName = "";
+            this.Dispatcher.Invoke(() =>
+            {
+                procName = tbProcessName.Text;
+            });
+
+            WqlObjectQuery qry = new WqlObjectQuery("SELECT Name FROM Win32_Process WHERE Name=\"" + procName + "\"");
             searcher = new ManagementObjectSearcher(qry);
 
             ManagementObjectCollection res = searcher.Get();
@@ -166,9 +177,11 @@ namespace PointerSpeedAutoSwitcher
             });
 
             // stop the old watcher, set appropriate sense, start new watcher
-            watcher.Stop();
+            // if its a deletionevent and theres still other instances of the process running
+            // then we dont stop the watcher and we dont change pointer speed
             if (watcherTypeIsCreation)
             {
+                watcher.Stop();
                 this.Dispatcher.Invoke(() =>
                 {
                     tbLog.AppendText(" launched.\n");
@@ -179,13 +192,26 @@ namespace PointerSpeedAutoSwitcher
             }
             else
             {
+                int runningInstances = checkAlreadyRunning();
                 this.Dispatcher.Invoke(() =>
                 {
                     tbLog.AppendText(" closed.\n");
                     newSpeed = int.Parse(tbDefaultSense.Text);
                 });
-                setMouseSpeed(newSpeed);
-                lookForNewProcess();
+
+                if(runningInstances == 0)
+                {
+                    watcher.Stop();
+                    setMouseSpeed(newSpeed);
+                    lookForNewProcess();
+                }
+                else
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        tbLog.AppendText("\t" + runningInstances.ToString() + " instances remain open.\n");
+                    });
+                }
             }
         }
 
@@ -266,7 +292,7 @@ namespace PointerSpeedAutoSwitcher
             tbLog.AppendText(DateTime.Now.ToString("HH:mm:ss") + " :: Started watching.\n");
             btStart.IsEnabled = false;
             btEnd.IsEnabled = true;
-            lookForNewProcess();
+            hotStart();
         }
 
         private void btEnd_Click(object sender, RoutedEventArgs e)
