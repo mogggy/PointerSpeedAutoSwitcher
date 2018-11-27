@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-using System.Management;                // ManagementEventWatcher
+using System.Management;                // ManagementEventWatcher/ObjectSearcher
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;                   // NotifyIcon
@@ -19,13 +19,15 @@ using System.Runtime.InteropServices;   // DllImport
 // TODO add facility for grabbing the list of currently running processes and setting the appropriate state
 //      for when the program has just been started or if user wants to manually un-fuck it
 
-// TODO run on startup & save settings
+// TODO run on startup
 
 // TODO handle multiple copies of the process. perhaps a call to our current state checker on deletionevent?
 
 // TODO inactive style for buttons
 
 // TODO icons (taskbar and tray)
+
+// TODO make it so you cant change anything without stopping the watcher
 
 namespace PointerSpeedAutoSwitcher
 {
@@ -49,6 +51,7 @@ namespace PointerSpeedAutoSwitcher
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool SystemParametersInfo(UInt32 uiAction, UInt32 uiParam, IntPtr pvParam, UInt32 fWinIni);
 
+        private static ManagementObjectSearcher searcher = null;
         private static ManagementEventWatcher watcher = null;
         private static bool watcherTypeIsCreation = true;
 
@@ -81,6 +84,32 @@ namespace PointerSpeedAutoSwitcher
             tbProcessName.Text = Properties.Settings.Default.ProcessName;
             tbProcessSense.Text = Properties.Settings.Default.ProcessSense;
 
+            tbLog.AppendText(DateTime.Now.ToString("HH:mm:ss") + " :: Started watching.\n");
+
+            // check if process is already running
+            if (checkAlreadyRunning() > 0)
+            {
+                // process already running, set speeed and switch to closing watcher
+                setMouseSpeed(int.Parse(tbProcessSense.Text));
+                watcherTypeIsCreation = false;
+                tbLog.AppendText(DateTime.Now.ToString("HH:mm:ss") + " :: "
+                    + tbProcessName.Text + " already running.\n");
+                lookForClosingProcess();
+            }
+            else
+            {
+                lookForNewProcess();
+            }
+        }
+
+        private int checkAlreadyRunning()
+        {
+            WqlObjectQuery qry = new WqlObjectQuery("SELECT Name FROM Win32_Process WHERE Name=\"" + tbProcessName.Text + "\"");
+            searcher = new ManagementObjectSearcher(qry);
+
+            ManagementObjectCollection res = searcher.Get();
+
+            return res.Count;
         }
 
         private void lookForNewProcess()
@@ -246,6 +275,9 @@ namespace PointerSpeedAutoSwitcher
             btStart.IsEnabled = true;
             btEnd.IsEnabled = false;
             watcher.Stop();
+
+            // set default speed
+            setMouseSpeed(int.Parse(tbDefaultSense.Text));
         }
 
         private void tbLog_TextChanged(object sender, TextChangedEventArgs e)

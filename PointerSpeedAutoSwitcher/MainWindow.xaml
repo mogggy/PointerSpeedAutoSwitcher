@@ -36,7 +36,7 @@
         <TextBox x:Name="tbProcessSense" Grid.Column="2" Grid.Row="3" Margin="2" TextAlignment="Center" Text="14" Style="{StaticResource StandardTextBoxStyle}" />
 
         <TextBox x:Name="tbLog" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2" Text="" Margin="2" Padding="2" IsReadOnly="True" TextChanged="tbLog_TextChanged" KeyDown="tbLog_KeyDown" Style="{StaticResource StandardTextBoxStyle}" />
-        <Button x:Name="btStart" Grid.Column="3" Grid.Row="4" Margin="2" Click="btStart_Click" Content="Start" Height="Auto" Style="{StaticResource  StandardButtonStyle}" />
-        <Button x:Name="btEnd" Grid.Column="4" Grid.Row="4" Margin="2" Click="btEnd_Click" IsEnabled="False" Content="Stop" Height="Auto" Style="{StaticResource  StandardButtonStyle}" />
+        <Button x:Name="btStart" Grid.Column="3" Grid.Row="4" Margin="2" Click="btStart_Click" IsEnabled="False" Content="Start" Height="Auto" Style="{StaticResource  StandardButtonStyle}" />
+        <Button x:Name="btEnd" Grid.Column="4" Grid.Row="4" Margin="2" Click="btEnd_Click" Content="Stop" Height="Auto" Style="{StaticResource  StandardButtonStyle}" />
     </Grid>
 </Window>
