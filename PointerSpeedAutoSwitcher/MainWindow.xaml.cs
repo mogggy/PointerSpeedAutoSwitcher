@@ -16,12 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;   // DllImport
 
-// TODO add facility for grabbing the list of currently running processes and setting the appropriate state
-//      for when the program has just been started or if user wants to manually un-fuck it
-
 // TODO run on startup
-
-// TODO handle multiple copies of the process. perhaps a call to our current state checker on deletionevent?
 
 // TODO inactive style for buttons
 
@@ -86,11 +81,13 @@ namespace PointerSpeedAutoSwitcher
 
             tbLog.AppendText(DateTime.Now.ToString("HH:mm:ss") + " :: Started watching.\n");
 
-            hotStart();
+            hotStart(); 
         }
 
         private void hotStart()
         {
+            childLock(true); // lock all the text boxes
+
             // check if process is already running
             if (checkAlreadyRunning() > 0)
             {
@@ -250,6 +247,13 @@ namespace PointerSpeedAutoSwitcher
             return res;
         }
 
+        private void childLock(bool state)
+        {
+            tbProcessName.IsReadOnly    = state;
+            tbProcessSense.IsReadOnly   = state;
+            tbDefaultSense.IsReadOnly   = state;
+        }
+
         protected override void OnStateChanged(EventArgs e)
         {
             if (WindowState == WindowState.Minimized)
@@ -289,6 +293,9 @@ namespace PointerSpeedAutoSwitcher
 
         private void btStart_Click(object sender, RoutedEventArgs e)
         {
+            // lock all the text boxes
+            childLock(true);
+
             tbLog.AppendText(DateTime.Now.ToString("HH:mm:ss") + " :: Started watching.\n");
             btStart.IsEnabled = false;
             btEnd.IsEnabled = true;
@@ -304,6 +311,9 @@ namespace PointerSpeedAutoSwitcher
 
             // set default speed
             setMouseSpeed(int.Parse(tbDefaultSense.Text));
+
+            // unlock all the text boxes
+            childLock(false); 
         }
 
         private void tbLog_TextChanged(object sender, TextChangedEventArgs e)
