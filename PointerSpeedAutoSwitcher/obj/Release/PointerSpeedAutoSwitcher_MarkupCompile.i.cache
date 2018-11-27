@@ -4,15 +4,15 @@
 winexe
 C#
 .cs
-C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Debug\
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Release\
 PointerSpeedAutoSwitcher
 none
 false
-DEBUG;TRACE
+TRACE
 C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\App.xaml
 2812986119
 
-10-1635394320
+10-744911805
 16-620464827
 MainWindow.xaml;WindowStyle.xaml;
 

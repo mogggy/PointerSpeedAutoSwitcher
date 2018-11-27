@@ -1,0 +1,16 @@
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\bin\Release\PointerSpeedAutoSwitcher.exe.config
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Release\MainWindow.g.cs
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Release\WindowStyle.g.cs
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Release\App.g.cs
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Release\PointerSpeedAutoSwitcher_MarkupCompile.cache
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Release\PointerSpeedAutoSwitcher_MarkupCompile.lref
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\bin\Release\PointerSpeedAutoSwitcher.exe
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\bin\Release\PointerSpeedAutoSwitcher.pdb
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Release\App.baml
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Release\MainWindow.baml
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Release\WindowStyle.baml
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Release\PointerSpeedAutoSwitcher.g.resources
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Release\PointerSpeedAutoSwitcher.Properties.Resources.resources
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Release\PointerSpeedAutoSwitcher.csproj.GenerateResource.Cache
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Release\PointerSpeedAutoSwitcher.exe
+C:\Users\M\workspace\PointerSpeedAutoSwitcher\PointerSpeedAutoSwitcher\obj\Release\PointerSpeedAutoSwitcher.pdb
