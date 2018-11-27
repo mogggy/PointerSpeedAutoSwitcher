@@ -18,12 +18,6 @@ using System.Runtime.InteropServices;   // DllImport
 
 // TODO run on startup
 
-// TODO inactive style for buttons
-
-// TODO icons (taskbar and tray)
-
-// TODO make it so you cant change anything without stopping the watcher
-
 namespace PointerSpeedAutoSwitcher
 {
     /// <summary>
@@ -56,11 +50,11 @@ namespace PointerSpeedAutoSwitcher
 
             ni = new System.Windows.Forms.NotifyIcon();
 
-            Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/images/redicon.ico")).Stream;
-            redIcon = new System.Drawing.Icon(iconStream);      //red icon
+            Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/images/cheeseGray.ico")).Stream;
+            redIcon = new System.Drawing.Icon(iconStream);      //off icon
 
-            iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/images/greenicon.ico")).Stream;
-            greenIcon = new System.Drawing.Icon(iconStream);    //green icon
+            iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/images/cheese.ico")).Stream;
+            greenIcon = new System.Drawing.Icon(iconStream);    //on icon
             iconStream.Dispose();
 
             ni.Icon = redIcon;
@@ -284,11 +278,6 @@ namespace PointerSpeedAutoSwitcher
         private void btSetCurrent_Click(object sender, RoutedEventArgs e)
         {
             setMouseSpeed(int.Parse(tbDefaultSense.Text));
-        }
-
-        private void chkActive_Checked(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void btStart_Click(object sender, RoutedEventArgs e)

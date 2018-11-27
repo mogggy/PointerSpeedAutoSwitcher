@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/fb.ico")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/cheese.ico")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/cheesegray.ico")]
 
 

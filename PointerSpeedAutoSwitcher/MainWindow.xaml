@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:PointerSpeedAutoSwitcher"
         mc:Ignorable="d"
         Title="Pointer-Speed Auto-Switcher" Height="350" Width="525" Closed="Window_Closed"
+        Icon="images/cheese.ico"
         Style="{StaticResource CustomWindowStyle}" MouseDown="Window_MouseDown">
     <Grid Margin="2">
         <Grid.RowDefinitions>
