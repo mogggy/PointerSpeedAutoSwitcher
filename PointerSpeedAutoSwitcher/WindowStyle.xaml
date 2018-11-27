@@ -6,7 +6,9 @@
     <!-- COLOURS -->
     <SolidColorBrush x:Key="cButtonGray" Color="#272E2E" />
     <SolidColorBrush x:Key="cHighlightAqua" Color="#00BFB3" />
-    <SolidColorBrush x:Key="cBackgroundGreen" Color="#00140A" />
+    <SolidColorBrush x:Key="cBackgroundDarkGreen" Color="#00140A" />
+    <SolidColorBrush x:Key="cBackgroundGray" Color="#202020" />
+    <SolidColorBrush x:Key="cBackgroundDarkGray" Color="#121212" />
     <!-- /COLOURS -->
     
     <!-- FONTS -->
@@ -28,8 +30,8 @@
             </Setter.Value>
         </Setter>
 
-        <Setter Property="BorderBrush" Value="{StaticResource cBackgroundGreen}" />
-        <Setter Property="Background" Value="{StaticResource cBackgroundGreen}" />
+        <Setter Property="BorderBrush" Value="{StaticResource cBackgroundGray}" />
+        <Setter Property="Background" Value="{StaticResource cBackgroundGray}" />
         <Setter Property="FontFamily" Value="Calibri" />
         <Setter Property="FontSize" Value="14" />
 

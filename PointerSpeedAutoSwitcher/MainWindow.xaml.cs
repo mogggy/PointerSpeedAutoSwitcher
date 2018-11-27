@@ -25,6 +25,8 @@ using System.Runtime.InteropServices;   // DllImport
 
 // TODO inactive style for buttons
 
+// TODO icons (taskbar and tray)
+
 namespace PointerSpeedAutoSwitcher
 {
     /// <summary>
@@ -73,6 +75,12 @@ namespace PointerSpeedAutoSwitcher
                     this.WindowState = WindowState.Normal;
 
                 };
+
+            // load settings
+            tbDefaultSense.Text = Properties.Settings.Default.DefaultMouseSpeed;
+            tbProcessName.Text = Properties.Settings.Default.ProcessName;
+            tbProcessSense.Text = Properties.Settings.Default.ProcessSense;
+
         }
 
         private void lookForNewProcess()
@@ -201,6 +209,12 @@ namespace PointerSpeedAutoSwitcher
         {
             ni.Icon.Dispose();
             ni.Dispose();
+
+            // save settings
+            Properties.Settings.Default.DefaultMouseSpeed = tbDefaultSense.Text;
+            Properties.Settings.Default.ProcessName = tbProcessName.Text;
+            Properties.Settings.Default.ProcessSense = tbProcessSense.Text;
+            Properties.Settings.Default.Save();
         }
 
         private void btGetCurrent_Click(object sender, RoutedEventArgs e)
