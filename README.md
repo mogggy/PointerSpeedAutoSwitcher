@@ -1,7 +1,7 @@
 # PointerSpeedAutoSwitcher
 Automatically adjust windows pointer speed when particular processes are running
 
-<div align="center"><img src="https://raw.githubusercontent.com/mogggy/PointerSpeedAutoSwitcher/PointerSpeedAutoSwitcher/master/images/demo.png" /></div>  
+<div align="center"><img src="https://github.com/mogggy/PointerSpeedAutoSwitcher/blob/master/PointerSpeedAutoSwitcher/images/demo.png" /></div>  
 
 #### Reference
 * [MouseSensitivityTweak by Frank Xu](https://github.com/northbright/MouseSensitivityTweak)
